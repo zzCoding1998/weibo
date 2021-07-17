@@ -32,6 +32,11 @@ class SessionsController extends Controller
         ]);
 
         if(Auth::attempt(['email' => $request->email,'password' => $request->password],$request->has('remember'))){
+            if(!Auth::user()->is_active){
+                Auth::logout();
+                session()->flash('danger','账户未激活，请前往邮箱进行认证');
+                return redirect()->back()->withInput();
+            }
             session()->flash('success','欢迎回来！');
             return redirect()->intended();
         }else{

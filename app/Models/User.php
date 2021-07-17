@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         return '/images/gravatar/default.jpeg';
     }
+
+    public function statuses()
+    {
+        return $this->hasMany(Status::class,'user_id','id');
+    }
 }

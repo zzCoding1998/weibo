@@ -33,5 +33,11 @@ Route::post('/password/reset','PasswordsController@reset')->name('password.reset
 Route::post('/status/store','StatusesController@store')->name('statuses.store');
 Route::delete('/status/delete/{status}','StatusesController@destroy')->name('statuses.destroy');
 
+Route::get('/users/{user}/followers','FollowersController@followers')->name('users.followers');
+Route::get('/users/{user}/followings','FollowersController@followings')->name('users.followings');
+
+Route::post('/users/follower/{user}','FollowersController@store')->name('followers.store');
+Route::delete('/users/follower/{user}','FollowersController@destroy')->name('followers.destroy');
+
 
 

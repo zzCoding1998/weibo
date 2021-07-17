@@ -4,6 +4,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Status;
 use Illuminate\Support\Facades\Auth;
 
 class StaticPagesController extends Controller
@@ -12,7 +13,12 @@ class StaticPagesController extends Controller
     {
         $feed_items = [];
         if(Auth::check()){
-            $feed_items = Auth::user()->statuses()->orderByDesc('created_at')->paginate(10);
+            $user_ids = Auth::user()->followings->pluck('id')->toArray();
+            array_push($user_ids,Auth::id());
+            $feed_items = Status::whereIn('user_id',$user_ids)
+                ->orderByDesc('created_at')
+                ->with('user')
+                ->paginate(10);
         }
         return view('statics.home', compact('feed_items'));
     }
